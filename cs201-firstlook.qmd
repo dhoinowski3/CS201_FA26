@@ -40,14 +40,73 @@ I don't recommend rearranging your pane layout at this time.
 
 Try running some code
 
+### Load Library
+
 ```{r}
+library(ggplot2)
+```
 
+### Some Scripting
 
+```{r}
+# This is a comment
+# R runs line by line, or highlighted text
+
+quiz1 <- 88 # how to assign values to names
+quiz2 <- 94
+quiz3 <- 79
+
+quiz1
+
+# averaging
+(quiz1 + quiz2 +quiz3) / 3
+
+mean(quiz1 + quiz2 + quiz3) # Not correct. Adds them together
+mean(quiz1, quiz2, quiz3) # Not correct. Only returns mean of first argument.
+
+mean(c(quiz1, quiz2, quiz3)) # Correct
+
+list <- c(quiz1, quiz2, quiz3) # Assign multiple values to one list
+
+mean(list)
+
+average <- mean(list)
+
+quiz3 <- 99 # Can update values
+
+mean(c(quiz1, quiz2, quiz3))
+list <- c(quiz1, quiz2, quiz3)
+
+average <- mean(list)
+
+average
+```
+
+### More Scripts
+
+```{r}
+scores <- c(88, 94, 79, 91, 85)
+scores
+
+mean(scores)
+min(scores) # smallest number
+max(scores) # largest number
+length(scores) # size of list
+
+summary(scores) # all those in one keyword
+
+students <- c("a", "b", "c", "d", "e")
+students
+
+# bar plot
+
+barplot(scores, names.arg = students)
 ```
 
 ## Introducing `ggplot2`
 
 ```{r}
+
 
 ```
 
