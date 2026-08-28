@@ -191,4 +191,4 @@ What did you observe?
 
 Why do you think this is happening? (You can look online for help)
 
-> Answer:
+> Answer: It's because certain numbers that aren't infinite floating points in base-10 are in base-2, or binary. 0.1 , 0.2, and 0.3 are infinite repeating decimals in base-2.
