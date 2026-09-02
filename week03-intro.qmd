@@ -127,7 +127,7 @@ tail(mtcars)
 
 - How many rows and columns are in the dataframe?
 
-  -  32 rows and 12 columns
+  - 32 rows and 12 columns
 
 - What are the variables you see?
 
