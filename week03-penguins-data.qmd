@@ -140,7 +140,7 @@ What other packages/functions do a similar thing?
 
 - Type your answer(s) in bullet points below
 
-  -  desctable
+  - desctable
 
   - summarytools
 
@@ -183,7 +183,7 @@ Cool! What if we color the histogram by species
 
 ```{r, message=FALSE}
 
-ggplot(data = penguins_data, aes(x = flipper_length_mm, color = species)) +
+ggplot(data = penguins_data, aes(x = flipper_length_mm, fill = species)) +
   geom_histogram()
   
 
@@ -197,41 +197,68 @@ The magic of `ggplot2` is simplicity and *customization* so let's customize, bas
 
 ![](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width="50%"}
 
-```{r, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
 
-
-
+ggplot(data = penguins_data, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.75) + # alpha changes transparency
+  scale_fill_manual(values = c("darkorange", "darkorchid", "cyan4"), name = "Pengiun Species") + # manual colors
+  theme_bw() +
+  labs(title = "Palmer Pengiun Flipper Length",
+       subtitle = "Three species observed on three islands in Palmer Archipelago",
+       x = "Flipper Length (mm)",
+       y = "Number of Pengiuns")
 ```
 
 Manually choosing colors is cool, but there are also color palettes available for us with `viridis`
 
 ```{r, message=FALSE}
 
-
+ggplot(data = penguins_data, aes(x = flipper_length_mm, fill = species)) +
+  geom_histogram(alpha = 0.75) + # alpha changes transparency
+  scale_fill_viridis_d(option = "magma", name = "Pengiun Species") +
+  theme_bw() +
+  labs(title = "Palmer Pengiun Flipper Length",
+       subtitle = "Three species observed on three islands in Palmer Archipelago",
+       x = "Flipper Length (mm)",
+       y = "Number of Pengiuns")
 
 ```
 
 Let's investigate flipper length with another type of data viz: a box plot!
 
 ```{r, message=FALSE}
-
-
+ggplot(data = penguins_data, aes(y = flipper_length_mm, fill = species)) +
+  geom_boxplot()
 
 ```
 
 Again, let's customize! Add points for individual penguins.
 
-```{r, message=FALSE}
+```{r message=FALSE}
+#| warning: false
 
-
-
+ggplot(data = penguins_data, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +
+  geom_point() +
+  scale_fill_manual(values = c("darkorange", "darkorchid", "cyan4"), name = "Pengiun Species") +
+  geom_jitter(size = 0.5) +
+  theme_bw() +
+  labs(title = "Palmer Pengiun Flipper Length",
+       subtitle = "Three species observed on three islands in Palmer Archipelago",
+       x = "Flipper Length (mm)",
+       y = "Number of Pengiuns") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1), legend.position = "none") +
+  coord_flip()
 ```
 
 Awesome! Let's take a look at flipper length and it's relationship to body mass
 
-```{r, message=FALSE}
-
-
+```{r message=FALSE}
+#| warning: false
+ggplot(data = penguins_data, aes(x = flipper_length_mm, y = body_mass_g, color = species, shape = island)) +
+  geom_point() +
+  scale_shape_manual(values = c(1,2,13))
 
 ```
 
@@ -239,7 +266,7 @@ Cool! Let's add species to this plot. What about island?
 
 ```{r, message=FALSE}
 
-
+# see above 
   
 ```
 
@@ -251,8 +278,14 @@ Cool! Let's add species to this plot. What about island?
 
 ```{r, message=FALSE, warning=FALSE}
 
-
-
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, color = species)) +
+  geom_histogram(alpha = 0.75) +
+  scale_fill_viridis_d(option = "rocket", name = "Pengiun Species") +
+  theme_bw() +
+  labs(title = "Palmer Pengiun Culmen Depth",
+       subtitle = "Three species observed on three Palmer Archipelago islands",
+       x = "Culmen Depth (mm)",
+       y = "Number of Pengiuns")
 ```
 
 - Part 2
@@ -260,9 +293,15 @@ Cool! Let's add species to this plot. What about island?
   - In the code chunk below create a **scatter plot** with `culmen_depth_mm` on the x axis, `body_mass_g` on the y axis, and `color` by `species` using the data frame *penguins_data*. Give the plot the theme: `theme_bw()`. Assign a color palette with `scale_color_viridis_d(option = "mako")`. Give the plot a title, subtitle and custom x and y axis titles.
 
 ```{r, message=FALSE, warning=FALSE}
-
-
-
+#| warning: false
+ggplot(data = penguins_data, aes(x = culmen_depth_mm, y = body_mass_g, color = species)) +
+  geom_point() +
+  theme_bw() +
+  scale_color_viridis_d(option = "mako") +
+  labs(title = "Palmer Pengiun Culmen Depth to Body Weight",
+       subtitle = "Three species observed on three Palmer Archipelago islands",
+       x = "Culmen Depth (mm)",
+       y = "Body Mass (G)")
 ```
 
 - Part 3
@@ -277,7 +316,21 @@ Cool! Let's add species to this plot. What about island?
 
 ```{r, message=FALSE}
 
+#| warning: false
 
+scatter_plot <- ggplot(data = penguins_data, aes(x = species, y = flipper_length_mm, fill = species)) +
+  geom_boxplot() +
+  geom_point() +
+  scale_fill_manual(values = c("darkorange", "darkorchid", "cyan4"), name = "Pengiun Species") +
+  geom_jitter(size = 0.5) +
+  theme_bw() +
+  labs(title = "Palmer Pengiun Flipper Length",
+       subtitle = "Three species observed on three islands in Palmer Archipelago",
+       x = "Flipper Length (mm)",
+       y = "Number of Pengiuns") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1), legend.position = "none")
+
+ggplotly(scatter_plot)
 
 ```
 
