@@ -62,7 +62,6 @@ How many variables (columns) are there?
 
 skim_data <- skimr::skim(pokedata)
 view(skim_data)
-
 ```
 
 ### Summary: Quick overview
@@ -106,6 +105,7 @@ summary(pokedata$number) # review the data in this variable
 
 # the reason I am converting to factor above is because I have looked at the data and decided that I want to treat the data as categorical rather than numeric. they are numbers, but they are id numbers related to each pokemon--not ordinal, measurements, or counts, etc. 
 
+class(pokedata$type_1)
 pokedata$type_1 <- as.factor(pokedata$type_1)
 class(pokedata$type_1)
 summary(pokedata$type_1)
@@ -123,9 +123,15 @@ summary(pokedata$legendary)
 
 How many categorical variables are there?
 
+- 5
+
 How many numeric variables are there?
 
+- 7
+
 How many legendary?
+
+- 65
 
 ## Describing your data with numbers
 
@@ -180,7 +186,7 @@ pokedata |>
 
 **Question!** The mean and the median are not the same number here. What does it mean when the mean is *larger* than the median?
 
-Answer:
+Answer: It means that the distribution is skewed to the right.
 
 ## Variation and Covariation
 
@@ -196,14 +202,14 @@ Let's start by looking at the distribution of Pokemon by Special Attack (`sp_atk
 #| label: distribution histogram
 
 ggplot(pokedata, aes(x = sp_atk)) +
-  geom_histogram(binwidth = 10)
+  geom_histogram(binwidth = 5)
 
 ```
 
 Notice that this histogram is showing you the same information you just calculated (center, spread, skew) but as a *shape* instead of as numbers.
 
 **Question!** What is the difference between a histogram and a bar chart?\
-Answer:
+Answer: Histograms are used for continuous data, while bar charts are for categorical data.
 
 ```{r, message=FALSE}
 #| label: bar chart
@@ -238,8 +244,8 @@ pokedata_0_100 <- pokedata |>
   filter(sp_atk <= 100)
 
 ggplot(pokedata_0_100, aes(x = sp_atk)) +
-  geom_histogram(binwidth = 1) +
-  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 1)) +
+  geom_histogram(binwidth = 5) +
+  scale_x_continuous(breaks = seq(from = 0, to = 100, by = 10)) +
   theme_bw()
 ```
 
@@ -308,13 +314,14 @@ Is `sp_def` more or less skewed than `sp_atk`? How can you tell from the numbers
 
 ## How about a scatter plot to see how they correlate?
 
-### Covariation
+### Co-variation
 
 ```{r}
 #| label: scatter plot
 
 ggplot(pokedata, aes(x = sp_atk, y = sp_def)) + 
-  geom_point()
+  geom_point() +
+  geom_smooth(method="lm", se=FALSE)
 ```
 
 We can also put a number on that relationship. The **correlation coefficient** ranges from -1 to 1: values near 1 mean the two variables increase together, values near -1 mean one goes up as the other goes down, and values near 0 mean there's no linear relationship.
