@@ -334,6 +334,9 @@ Looks like there are other factors that could affect `price` – not just `cut`.
 
 # try making the points transparent to 0.05
 
+ggplot(data = diamonds, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.05)
+
 
 ```
 
@@ -404,6 +407,9 @@ ggplot(data = diamonds, aes(x = clarity, y = price)) +
 
 # clarity x carat
 
+ggplot(data = diamonds, aes(x = clarity, y = carat)) +
+  geom_boxplot()
+
 ```
 
 What is the relationship here?
@@ -417,15 +423,23 @@ Let's not forget about `cut`! Is there a relationship between `cut` and `carat`?
 
 # box plot of cut x price
 
+ggplot(data = diamonds, aes(x = cut, y = price)) +
+  geom_boxplot()
 
 # box plot of cut x carat
 
+ggplot(data = diamonds, aes(x = cut, y = carat)) +
+  geom_boxplot()
 
 # count plot
 
+ggplot(data = diamonds, aes(x = cut, y = carat)) +
+  geom_count()
 
 # violin plot
 
+ggplot(data = diamonds, aes(x = cut, y = carat)) +
+  geom_violin()
 
 ```
 
@@ -447,7 +461,7 @@ Between `color`, `clarity`, and `carat`, which do you think is the best predicto
 
 #### Conclusions:
 
-The variable with the most influence on price is \_\_\_.
+The variable with the most influence on price is carat. There was a tradeoff noticed between carat and cut, indicating that higher carat diamonds could be sold for large sums even if they are not cut well.
 
 ### Reflection
 
