@@ -159,7 +159,11 @@ Starting with `penguins`, create a new object called `count` that filters out al
 
 ```{r, message=FALSE, warning=FALSE}
 
+count <- penguins |> 
+  filter(sex %in% c("MALE", "FEMALE")) |> 
+  count(island, species, sex)
 
+view(count)
 ```
 
 ## 11. `case_when()`
@@ -174,7 +178,14 @@ Use `summary(as.factor(case_when$size))` to check your work
 
 ```{r, message=FALSE, warning=FALSE}
 
+case_when <- penguins |> 
+  mutate(size = case_when(
+    body_mass_g >= 4050 ~ "large",
+    body_mass_g < 4050 ~ "small"
+    )
+  )
 
+summary(as.factor(case_when$size))
 ```
 
 ## 12. Final Boss 🐧 (up to 2.5 pts extra credit)
