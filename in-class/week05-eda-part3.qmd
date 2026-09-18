@@ -293,14 +293,14 @@ A mosaic plot is a graphical representation of the relationship between two or m
 ```{r}
 
 # install.packages("vcd") # do this first!
-# library(vcd)
+library(vcd)
 
 # make a contingency table
-# diamond_table <- xtabs(~ cut + color, data = diamonds)
+diamond_table <- xtabs(~ cut + color, data = diamonds)
 
 # build the mosaic plot
-# mosaic(diamond_table, shade = TRUE, legend = TRUE,
-       # labeling_args = list(set_varnames = c(cut = "Cut", color = "Color")))
+mosaic(diamond_table, shade = TRUE, legend = TRUE,
+       labeling_args = list(set_varnames = c(cut = "Cut", color = "Color")))
 
 ```
 
