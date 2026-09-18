@@ -58,11 +58,13 @@ Don't forget to assign to a new object name. (I'm just going to call mine `filte
 Hints: You can always check your work using `unique()`. It'll tell you the unique values that exist in a specified column, and will also help you identify the correct spelling
 
 ```{r, messages=FALSE}
-unique(penguins$species)# an example of how to use unique()
+unique(penguins$sex)# an example of how to use unique()
+
+female_culmen <- filter(penguins, sex == "FEMALE", culmen_length_mm >= 39)
 
 unique(female_culmen$sex)
 
-female_culmen <- filter(penguins, sex == "FEMALE", culmen_length_mm >= 39)
+view(female_culmen)
 ```
 
 ## 4. `select()`
@@ -73,8 +75,10 @@ Assign this to a new object name so that you do not overwrite the original data!
 
 ```{r, message=FALSE, warning=FALSE}
 
+no_comments <- penguins |> 
+  select(-comments)
 
-
+view(no_comments)
 ```
 
 ## 5. `relocate()`
@@ -85,7 +89,10 @@ Don't forget to assign to a new object name!
 
 ```{r, message=FALSE, warning=FALSE}
 
+move_id_col <- penguins |> 
+  relocate(individual_id, .after = sample_number)
 
+view(move_id_col)
 ```
 
 ## 6. `rename()`
@@ -96,7 +103,10 @@ Don't forget to assign to a new object name.
 
 ```{r, message=FALSE, warning=FALSE}
 
+alter_island_name <- penguins |> 
+  rename(island_name = island)
 
+view(alter_island_name)
 ```
 
 ## 7. `mutate()`
@@ -105,7 +115,10 @@ Copy `penguins` to a new object called `mutate` and add a column that displays f
 
 ```{r, message=FALSE, warning=FALSE}
 
+mutate <- penguins |> 
+  mutate(flippometers = flipper_length_mm / 1000000)
 
+view(mutate)
 ```
 
 ## 8. `group_by() |> summarize()`
@@ -118,7 +131,12 @@ Apply `na.rm` as needed.
 
 ```{r, message=FALSE, warning=FALSE}
 
+number8 <- penguins |> 
+  group_by(island, species) |> 
+  summarize(culmen_depth_mean = mean(culmen_depth_mm, na.rm = TRUE),
+            culmen_length_mean = mean(culmen_length_mm, na.rm = TRUE))
 
+view(number8)
 ```
 
 ## 9. `across()`
@@ -127,7 +145,12 @@ Starting with `penguins`, only keep observations for Biscoe island, group by `sp
 
 ```{r, message=FALSE, warning=FALSE}
 
+biscoe_species <- penguins |> 
+  filter(island == "Biscoe") |> 
+  group_by(species) |> 
+  summarize(across(where(is.numeric), max, na.rm = TRUE))
 
+view(biscoe_species)
 ```
 
 ## 10. `count()`
