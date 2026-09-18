@@ -228,6 +228,9 @@ Create a new object called `final_boss` that satisfies all of the following:
 
 ```{r, message=FALSE, warning=FALSE}
 
+final_boss <- penguins |> 
+  filter(penguins, sex == "FEMALE", culmen_length_mm >= 39, na.rm)
+  
 
 ```
 
