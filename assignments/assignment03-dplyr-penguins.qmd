@@ -30,7 +30,7 @@ library(dplyr)
 These penguins are probably becoming familiar at this point!
 
 ```{r, message=FALSE, warning=FALSE}
-penguins <- read_csv("data/penguins_lter.csv") # read in data
+penguins <- read_csv("../data/penguins_lter.csv") # read in data
 
 penguins <- penguins |> # clean up the names
   clean_names()
