@@ -137,25 +137,29 @@ ggplot(five_hundred_hits, aes(x = YRS)) +
 
 Question this plot answers: What is the distribution of total years played in the MLB by all players in the five_hundred_hits dataframe?
 
-Interpretation: The most common amount of total years a player spends in the MLB appears to be around 17 years. The dropoff occuring around Year 18 and beyond suggests that it's not common to be a long-term player in the MLB, which makes sense as the body will probably start to degrade at around this time, and only the best are able to keep playing past their physical prime and still perform well.
+Interpretation: The most common amount of total years a player spends in the MLB appears to be around 17 years. The drop-off occurring around Year 18 and beyond suggests that it's not common to be a long-term player in the MLB, which makes sense as the body will probably start to degrade at around this time, and only the best are able to keep playing past their physical prime and still perform well.
 
 ### Plot 3
 
 ```{r}
 # insert code here
 
+ggplot(five_hundred_hits, aes(x = BA, y = R)) +
+  geom_point(na.rm = TRUE) +
+  geom_smooth(method = "lm")
 
 
 ```
 
-Question this plot answers:
+Question this plot answers: Is there a correlation between having a high batting average and scoring lots of runs in the five_hundred_hits dataframe?
 
-Interpretation:
+Interpretation: There appears to be a light, but not very strong correlation between scoring runs and having a high batting average. This is surprising, considering often times a base hit is what drives in a run, and that a home run (even a solo home run) is counted as both an RBI and a hit. There are ways to score a runner without a base hit, such as as bases-loaded walk, a sacrifice fly, or maybe they were thrown out but the run was still able to score. As a note, the only way a run scored is NOT counted as an RBI is when the runners scores on a fielding error, on a groundball that results in a double play.
 
 ### Plot 4
 
 ```{r}
 # insert code here
+
 
 ```
 
