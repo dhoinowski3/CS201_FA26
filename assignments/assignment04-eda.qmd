@@ -41,6 +41,7 @@ five_hundred_hits <- five_hundred_hits |>
   mutate(HOF = recode(as.character(HOF),
                           "0" = "No",
                           "1" = "Yes",
+                          "2" = "Yes", # for some reason, there is a misinput and a player was inputted as a 2
                           .missing = "unknown"),
          HOF = factor(HOF))
 # changes the stat for whether the player is in the Hall of Fame from a 1 or 0 into a Yes or No factor
@@ -160,12 +161,16 @@ Interpretation: There appears to be a light, but not very strong correlation bet
 ```{r}
 # insert code here
 
+ggplot(five_hundred_hits, aes(x = as.factor(YRS), y = HR)) +
+  geom_boxplot(na.rm = TRUE) +
+  labs(title = "Range of Home Runs across Years", x = "Total Years Played", y = "Home Runs")
+
 
 ```
 
-Question this plot answers:
+Question this plot answers: What is the range of total home runs hit, sorted by total years played in the MLB?
 
-Interpretation:
+Interpretation: The upper quartile of home runs hit tends to increase as total years increases. However, the lower quartile stays roughly the same across the whole y-axis. This makes some sense, as the longer you play, the more chances you have to hit home runs. It is odd that some of the lowest ranges were in the highest years played. Looking into it, it seems that many of these players were from very long ago, when hitting home runs were not really encouraged, which would be about before Babe Ruth.
 
 ------------------------------------------------------------------------
 
