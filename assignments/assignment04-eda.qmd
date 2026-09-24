@@ -29,18 +29,34 @@ Part 1 is worth a total of 1 point, and Part 2 is worth 4 points (1 point for ea
 
 ```{r, message=FALSE}
 library(tidyverse)
+library(ggplot2)
+library(plotly)
 
-# mydata <- read_csv("data/your_dataset.csv")
+five_hundred_hits <- read_csv("../data/500hits.csv")
 
+five_hundred_hits$PLAYER[151] <- "Ivan Rodriguez"
+# This must be done because his name in the unedited dataset has Spanish tildes, which R has a hard time parsing, so I changed his name to remove the tildes.
+
+five_hundred_hits <- five_hundred_hits |> 
+  mutate(HOF = recode(as.character(HOF),
+                          "0" = "No",
+                          "1" = "Yes",
+                          .missing = "unknown"),
+         HOF = factor(HOF))
+# changes the stat for whether the player is in the Hall of Fame from a 1 or 0 into a Yes or No factor
+
+five_hundred_hits <- five_hundred_hits |> 
+  mutate(across(where(is.numeric), ~na_if(.x, 0)))
+# For some reason, instead of labeling it as such, NA values are signified by 0, so I changed them to NA in order to make them easier to omit from visualizations.
 ```
 
 ### Describe your data
 
-Data author:
+Data author: Krupa_20, or krupadharamshi
 
-Link:
+Link: [https://www.kaggle.com/datasets/krupadharamshi/500hits](https://www.kaggle.com/datasets/krupadharamshi/500hits?select=500hits.csv)
 
-Description:
+Description: A database containing a diverse array of various baseball players, and their essential in-game hitting statistics, like hits, games played, at-bats, and more.
 
 ### Preview your data
 
@@ -48,6 +64,7 @@ Use some of the strategies you've learned in this class or picked up elsewhere t
 
 ```{r}
 
+head(five_hundred_hits)
 ```
 
 ### Summary stats
@@ -64,9 +81,18 @@ Before you make plots, you must also:
 
 ```{r}
 
+summary(five_hundred_hits)
+
+count(five_hundred_hits, HOF)
+
+mean(five_hundred_hits$H, na.rm = TRUE)
+
+sd(five_hundred_hits$HR, na.rm = TRUE)
 ```
 
 Write 2–3 sentences here: What do the category counts tell you? What does the numeric summary show about spread, center, or outliers?
+
+The category count tells me that the majority of the players in this dataset did not make it into the Hall of Fame, around 75% did not make it in. The numeric summary also shows me that the ranges for many of these stats are large. However, I do notice a very large difference between the medians and the maximums in many columns, which tells me that there are lots of outliers, particularly to upper part of the dataset.
 
 ## Part 2: Visualize Your Data
 
@@ -87,27 +113,38 @@ Use the EDA Part 3 notes as your reference. Since this is an EDA assignment, you
 ```{r}
 # insert code here
 
+ggplot(five_hundred_hits, aes(x = HOF, y = BB)) +
+  geom_boxplot(na.rm = TRUE) +
+  labs(title = "Range of Walks", x = "Hall of Fame status", y = "Total Walks")
+
 ```
 
-Question this plot answers:
+Question this plot answers: What is the range of values for Base on Balls (Walks) by Hall of Fame status in the five_hundred_hits dataframe?
 
-Interpretation:
+Interpretation: Players who have been inducted into the Hall of Fame tended to have higher walk rates, with considerable outliers. This makes sense, as the best hitters are often the ones who are able to get on base, regardless if they got a hit or not. A great hitter is able to take advantage of a pitcher who is missing the strike zone, as well as being able to stay disciplined and not swing at pitches outside the zone.
 
 ### Plot 2
 
 ```{r}
 # insert code here
 
+ggplot(five_hundred_hits, aes(x = YRS)) +
+  geom_density() +
+  labs(title = "Density of Years Played", x = "Amount of Years", y = "Density") +
+  scale_x_continuous(breaks = seq(10, 30, by = 2))
+
 ```
 
-Question this plot answers:
+Question this plot answers: What is the distribution of total years played in the MLB by all players in the five_hundred_hits dataframe?
 
-Interpretation:
+Interpretation: The most common amount of total years a player spends in the MLB appears to be around 17 years. The dropoff occuring around Year 18 and beyond suggests that it's not common to be a long-term player in the MLB, which makes sense as the body will probably start to degrade at around this time, and only the best are able to keep playing past their physical prime and still perform well.
 
 ### Plot 3
 
 ```{r}
 # insert code here
+
+
 
 ```
 
